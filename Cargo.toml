@@ -1,0 +1,23 @@
+[package]
+name = "locatie-bot"
+version = "0.1.0"
+authors = ["Johan Govers <johan@otherweb.eu>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bytes = "0.4.12"
+tokio = "0.2.0-alpha.5"
+dotenv = "0.15.0"
+error-chain = "0.11.0"
+tracing = "0.1.9"
+tracing-futures = { version = "0.1.0", features = ["std-future"] }
+multipart = { version = "0.16", default-features = false, features = ["client"] }
+
+telegram-bot-raw = { version = "=0.7.0-alpha.0", git = "https://github.com/telegram-rs/telegram-bot.git" }
+telegram-bot = { version = "=0.7.0-alpha.0", git = "https://github.com/telegram-rs/telegram-bot.git" }
+
+hyper = { version = "=0.13.0-alpha.4", features=["unstable-stream"]}
+hyper-tls = "=0.4.0-alpha.4"
+futures-preview = "=0.3.0-alpha.19"
