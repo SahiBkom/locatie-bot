@@ -44,22 +44,25 @@ async fn main() -> Result<(), Error> {
         let update = update?;
 
         match update.kind {
-            UpdateKind::Message(message) => {
-
-                match  message.kind {
-                    MessageKind::Text { ref data, .. } => {
-                        match data.as_str() {
-                            "/livelocation" => test(api.clone(), message.clone()).await?,
-                            _ => println!("Text:{:?}", data),
-                        }
-                    },
-                    MessageKind::Location { ref data, .. } => {
-                        println!("long:{}, lat:{}", data.longitude, data.latitude);
-                    },
-                    _ => println!("Text {:?}", message.kind),
-
+            UpdateKind::Message(message) => match message.kind {
+                MessageKind::Text { ref data, .. } => match data.as_str() {
+                    "/livelocation" => test(api.clone(), message.clone()).await?,
+                    _ => println!("Text:{:?}", data),
+                },
+                MessageKind::Location { ref data, .. } => {
+                    println!("long:{}, lat:{}", data.longitude, data.latitude);
                 }
-            }
+                _ => println!("Text {:?}", message.kind),
+            },
+            UpdateKind::EditedMessage(ref msg) => match msg.kind {
+                MessageKind::Location { ref data, .. } => {
+                    println!(
+                        "Update long:{}, lat:{}, date:{}, user:{}",
+                        data.longitude, data.latitude, msg.date, msg.from.first_name
+                    );
+                }
+                _ => println!("Update {:?}", msg.kind),
+            },
             _ => println!("other {:?}", update.kind),
         }
     }
